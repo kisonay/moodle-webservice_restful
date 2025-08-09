@@ -183,10 +183,23 @@ The received response will look like:
 ...
 </code></pre>
 
+## CORS and Authentication
+This plugin supports Cross-Origin Resource Sharing (CORS):
+
+- Preflight (OPTIONS) requests are handled and return 204 with the appropriate headers.
+- Allowed methods: GET, POST, OPTIONS, HEAD.
+- Allowed request headers: Authorization, Content-Type, Accept, X-Requested-With.
+- Exposed response headers: X-PHP-Response-Code.
+- Default Access-Control-Allow-Origin is set to '*'. If you require cookie-based requests with credentials, configure your frontend and reverse proxy/webserver to send a specific Origin and set Access-Control-Allow-Credentials accordingly.
+
+Authorization header:
+- Provide your Moodle web service token in the Authorization header.
+- Both of the following are accepted: 'Authorization: {token}' or 'Authorization: Bearer {token}'.
+
 ## Error Examples
 The following cURL example will generate various types of errors. These are useful when testing.
 
-### No Aauthorization Header
+### No Authorization Header
 This request is missing the authorization header.
 
 <pre><code>

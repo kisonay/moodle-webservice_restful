@@ -99,6 +99,30 @@ class server_test extends \advanced_testcase {
     }
 
     /**
+     * Test get wstoken method trims optional Bearer prefix.
+     *
+     * @covers ::get_wstoken()
+     */
+    public function test_get_wstoken_bearer(): void {
+        $headers = [
+            'HTTP_AUTHORIZATION' => 'Bearer e71561c88ca7f0f0c94fee66ca07247b',
+            'HTTP_ACCEPT' => 'application/json',
+            'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+        ];
+        $expected = 'e71561c88ca7f0f0c94fee66ca07247b';
+
+        $builder = $this->getMockBuilder('webservice_restful_server');
+        $builder->disableOriginalConstructor();
+        $stub = $builder->getMock();
+
+        $method = new \ReflectionMethod('webservice_restful_server', 'get_wstoken');
+        $method->setAccessible(true);
+        $proxy = $method->invoke($stub, $headers);
+
+        $this->assertEquals($expected, $proxy);
+    }
+
+    /**
      * Test get wstoken method correctly errors.
      *
      * @covers ::get_wstoken()

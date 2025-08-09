@@ -466,9 +466,13 @@ class webservice_restful_server extends webservice_base_server {
         header('Expires: '. gmdate('D, d M Y H:i:s', 0) .' GMT');
         header('Pragma: no-cache');
         header('Accept-Ranges: none');
-        // Allow cross-origin requests only for Web Services.
-        // This allow to receive requests done by Web Workers or webapps in different domains.
+        // Allow cross-origin requests for Web Services.
+        // This allows requests from webapps in different domains and supports the Authorization header.
         header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, HEAD');
+        header('Access-Control-Allow-Headers: Authorization, Content-Type, Accept, X-Requested-With');
+        header('Access-Control-Expose-Headers: X-PHP-Response-Code');
+        header('Access-Control-Max-Age: 86400');
     }
 
     /**

@@ -32,6 +32,16 @@ define('WS_SERVER', true);
 require('../../config.php');
 require_once("$CFG->dirroot/webservice/restful/locallib.php");
 
+// Handle CORS preflight (OPTIONS) requests early and exit.
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS, HEAD');
+    header('Access-Control-Allow-Headers: Authorization, Content-Type, Accept, X-Requested-With');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(204);
+    die;
+}
+
 if (!webservice_protocol_is_enabled('restful')) {
     header("HTTP/1.0 403 Forbidden");
     debugging('The server died because the web services or the REST protocol are not enable',
